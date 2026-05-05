@@ -3,310 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Den Market | Do'koningiz</title>
+    <title>Den Market</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #0a0a0a, #0a192f);
-            min-height: 100vh;
-            padding: 20px;
-            color: #fff;
-        }
-
-        body.light-mode {
-            background: linear-gradient(135deg, #f5f7fa, #e4e8f0);
-            color: #1a1a2e;
-        }
-
-        body.light-mode .card,
-        body.light-mode .cart-section {
-            background: rgba(255,255,255,0.9);
-            color: #1a1a2e;
-            border-color: #ddd;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px 0;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .logo {
-            font-size: 3.5rem;
-            display: inline-block;
-            filter: drop-shadow(0 0 15px rgba(255,216,155,0.5));
-            animation: shine 3s ease-in-out infinite;
-        }
-
-        @keyframes shine {
-            0%, 100% { filter: drop-shadow(0 0 5px rgba(255,216,155,0.3)); transform: scale(1); }
-            50% { filter: drop-shadow(0 0 25px rgba(255,216,155,0.8)); transform: scale(1.05); }
-        }
-
-        .title {
-            font-size: 2rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, #fff, #ffd89b, #ffb347);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .subtitle {
-            font-size: 0.8rem;
-            opacity: 0.9;
-            margin-top: 5px;
-            color: #ffd89b;
-        }
-
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(255,255,255,0.2);
-            border: none;
-            border-radius: 50%;
-            width: 45px;
-            height: 45px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            z-index: 100;
-        }
-
-        .filters {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-        }
-
-        .search-box {
-            flex: 2;
-            padding: 12px 16px;
-            border-radius: 50px;
-            border: none;
-            background: rgba(255,255,255,0.1);
-            color: #fff;
-            font-size: 1rem;
-            outline: none;
-        }
-
-        select {
-            flex: 1;
-            padding: 12px 16px;
-            border-radius: 50px;
-            background: rgba(255,255,255,0.1);
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-
-        .menu-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 25px;
-        }
-
-        .card {
-            background: rgba(255,255,240,0.08);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 16px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid rgba(255,255,255,0.15);
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-3px);
-            border-color: #ffd89b;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        }
-
-        .item-name {
-            font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 4px;
-        }
-
-        .item-weight {
-            font-size: 0.7rem;
-            color: #ffd89b;
-            opacity: 0.8;
-        }
-
-        .price-unit {
-            font-size: 0.85rem;
-            color: #ffd89b;
-            font-weight: bold;
-        }
-
-        .quantity-control {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .qty-btn {
-            background: rgba(255,255,255,0.15);
-            border: none;
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #ffd89b;
-            cursor: pointer;
-        }
-
-        .cart-section {
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
-            border-radius: 28px;
-            padding: 20px;
-            margin-top: 10px;
-        }
-
-        .cart-header {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #ffd89b;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .clear-cart {
-            background: none;
-            border: none;
-            color: #ff6b6b;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-
-        .cart-items {
-            max-height: 200px;
-            overflow-y: auto;
-            margin-bottom: 15px;
-        }
-
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .location-btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: bold;
-            background: #3c6e47;
-            color: white;
-            cursor: pointer;
-            margin-bottom: 12px;
-        }
-
-        .location-info {
-            background: rgba(60, 110, 71, 0.2);
-            border-radius: 12px;
-            padding: 8px;
-            margin-bottom: 12px;
-            font-size: 0.75rem;
-            text-align: center;
-            color: #ffd89b;
-        }
-
-        .total {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-top: 2px solid rgba(255,255,255,0.1);
-            font-weight: bold;
-        }
-
-        .total-amount {
-            color: #ffd89b;
-            font-size: 1.2rem;
-        }
-
-        .input-group {
-            margin: 15px 0;
-        }
-
-        .input-label {
-            font-size: 0.75rem;
-            opacity: 0.8;
-            margin-bottom: 5px;
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 50px;
-            background: rgba(255,255,255,0.9);
-            font-size: 0.9rem;
-        }
-
-        textarea {
-            border-radius: 20px;
-            resize: vertical;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, #ffd89b, #ffb347);
-            color: #1a1a2e;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        footer {
-            text-align: center;
-            font-size: 0.6rem;
-            margin-top: 20px;
-            opacity: 0.6;
-        }
-
-        .no-results {
-            text-align: center;
-            padding: 40px;
-            opacity: 0.7;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background: linear-gradient(135deg, #0a0a0a, #0a192f); min-height: 100vh; padding: 20px; color: #fff; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .logo { font-size: 3rem; }
+        .title { font-size: 2rem; background: linear-gradient(135deg, #fff, #ffd89b); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .subtitle { font-size: 0.8rem; opacity: 0.9; margin-top: 5px; }
+        .filters { display: flex; gap: 12px; margin-bottom: 25px; flex-wrap: wrap; }
+        .search-box { flex: 2; padding: 12px 16px; border-radius: 50px; border: none; background: rgba(255,255,255,0.1); color: #fff; font-size: 1rem; }
+        select { flex: 1; padding: 12px 16px; border-radius: 50px; background: rgba(255,255,255,0.1); color: #fff; border: none; }
+        .menu-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
+        .card { background: rgba(255,255,240,0.08); border-radius: 24px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255,255,255,0.15); }
+        .cart-section { background: rgba(0,0,0,0.5); border-radius: 28px; padding: 20px; margin-top: 10px; }
+        .cart-header, .total { display: flex; justify-content: space-between; align-items: center; }
+        .total { padding: 12px 0; border-top: 2px solid rgba(255,255,255,0.1); font-weight: bold; }
+        .total-amount, .price-unit { color: #ffd89b; }
+        .qty-btn { background: rgba(255,255,255,0.15); border: none; width: 34px; height: 34px; border-radius: 50%; font-size: 1.2rem; color: #ffd89b; cursor: pointer; }
+        .location-btn, .btn { width: 100%; padding: 14px; border: none; border-radius: 50px; font-weight: bold; margin-bottom: 12px; background: #3c6e47; color: white; cursor: pointer; }
+        .btn { background: linear-gradient(135deg, #ffd89b, #ffb347); color: #1a1a2e; margin-top: 10px; }
+        input, textarea { width: 100%; padding: 12px; border-radius: 50px; border: none; background: rgba(255,255,255,0.9); font-size: 0.9rem; margin-top: 5px; }
+        textarea { border-radius: 20px; resize: vertical; }
+        .item-weight { font-size: 0.7rem; color: #ffd89b; }
     </style>
 </head>
 <body>
-    <button class="theme-toggle" id="themeToggle">🌙</button>
-
     <div class="header">
         <div class="logo">🏪📦</div>
         <div class="title">DEN MARKET</div>
@@ -316,10 +39,8 @@
     <div class="filters">
         <input type="text" id="searchInput" class="search-box" placeholder="🔍 Mahsulot qidirish...">
         <select id="categorySelect">
-            <option value="all">📋 Hammasi</option>
-            <option value="sabzavot">🥕 Sabzavotlar</option>
-            <option value="guruch">🍚 Guruchlar</option>
-            <option value="yog">🛢️ Yog'lar</option>
+            <option value="all">📋 Hammasi</option><option value="sabzavot">🥕 Sabzavotlar</option>
+            <option value="guruch">🍚 Guruchlar</option><option value="yog">🛢️ Yog'lar</option>
             <option value="boshqa">📦 Boshqa</option>
         </select>
     </div>
@@ -327,38 +48,20 @@
     <div class="menu-list" id="menuList"></div>
 
     <div class="cart-section">
-        <div class="cart-header">
-            <span>🛒 SAVATCHA</span>
-            <button class="clear-cart" id="clearCartBtn">🗑️ Tozalash</button>
-        </div>
+        <div class="cart-header"><span>🛒 SAVATCHA</span><button class="clear-cart" id="clearCartBtn" style="background:none; border:none; color:#ff6b6b;">🗑️ Tozalash</button></div>
         <div class="cart-items" id="cartItems">Savat bo'sh</div>
-        <div class="total">
-            <span>💰 Jami</span>
-            <span class="total-amount" id="totalAmount">0 so'm</span>
-        </div>
-
+        <div class="total"><span>💰 Jami</span><span class="total-amount" id="totalAmount">0 so'm</span></div>
         <button class="location-btn" id="locationBtn">📍 Lokatsiyani yuborish</button>
-        <div id="locationInfo" class="location-info"></div>
-
-        <div class="input-group">
-            <div class="input-label">📞 Telefon raqam</div>
-            <input type="tel" id="phone" placeholder="+998 __ ___ __ __">
-        </div>
-
-        <div class="input-group">
-            <div class="input-label">📍 Yetkazib berish manzili</div>
-            <textarea id="address" rows="2" placeholder="Ko'cha, uy, tuman, shahar..."></textarea>
-        </div>
-
+        <div id="locationInfo" class="location-info" style="background:rgba(60,110,71,0.2); border-radius:12px; padding:8px; margin-bottom:12px; font-size:0.75rem;"></div>
+        <div class="input-group"><div class="input-label">📞 Telefon raqam</div><input type="tel" id="phone" placeholder="+998 __ ___ __ __"></div>
+        <div class="input-group"><div class="input-label">📍 Yetkazib berish manzili</div><textarea id="address" rows="2" placeholder="Ko'cha, uy, tuman, shahar..."></textarea></div>
         <button class="btn" id="orderBtn">✅ BUYURTMA BERISH</button>
     </div>
-    <footer>Den Market 2026 | Sifatli xizmat</footer>
+    <footer style="text-align:center; margin-top:20px; font-size:0.7rem;">Den Market 2026 | Sifatli xizmat</footer>
 
     <script>
         const tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.ready();
-
+        tg.expand(); tg.ready();
         const PRODUCTS = [
             { name: "Kartoshka", price: 7000, weight: "1 kg", category: "sabzavot" },
             { name: "Piyoz", price: 2000, weight: "1 kg", category: "sabzavot" },
@@ -372,175 +75,53 @@
             { name: "Farg'ona yog'", price: 68000, weight: "3.6 kg", category: "yog" },
             { name: "Lazzat yog'", price: 100000, weight: "5 L", category: "yog" }
         ];
-
         let cart = JSON.parse(localStorage.getItem('den_market_cart')) || {};
-        let userLocation = null;
-        let searchTerm = '';
-        let selectedCategory = 'all';
-
-        function getTotalWeight(name, qty) {
-            const product = PRODUCTS.find(p => p.name === name);
-            if (!product) return '';
-            const weightValue = parseFloat(product.weight.split(' ')[0]);
-            const weightUnit = product.weight.split(' ')[1];
-            const totalWeight = weightValue * qty;
-            return `${totalWeight} ${weightUnit}`;
-        }
+        let searchTerm = '', selectedCategory = 'all', userLocation = null;
 
         function renderMenu() {
             const container = document.getElementById('menuList');
             container.innerHTML = '';
-            
-            const filtered = PRODUCTS.filter(product => {
-                const matchSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
-                const matchCategory = selectedCategory === 'all' || product.category === selectedCategory;
-                return matchSearch && matchCategory;
+            const filtered = PRODUCTS.filter(p => p.name.toLowerCase().includes(searchTerm) && (selectedCategory === 'all' || p.category === selectedCategory));
+            if (filtered.length === 0) { container.innerHTML = '<div class="no-results">❌ Hech narsa topilmadi</div>'; return; }
+            filtered.forEach(p => {
+                const qty = cart[p.name] || 0;
+                container.innerHTML += `<div class="card"><div><div class="item-name">${p.name} <span class="item-weight">(${p.weight})</span></div><div class="price-unit">${p.price.toLocaleString()} so'm</div></div><div class="quantity-control"><button class="qty-btn" onclick="changeQty('${p.name.replace(/'/g, "\\'")}', -1)">−</button><span id="qty-${p.name.replace(/\s/g,'')}">${qty}</span><button class="qty-btn" onclick="changeQty('${p.name.replace(/'/g, "\\'")}', 1)">+</button></div></div>`;
             });
-
-            if (filtered.length === 0) {
-                container.innerHTML = '<div class="no-results">❌ Hech narsa topilmadi</div>';
-                return;
-            }
-
-            for (const product of filtered) {
-                const qty = cart[product.name] || 0;
-                container.innerHTML += `
-                    <div class="card">
-                        <div class="item-info">
-                            <div class="item-name">
-                                ${product.name}
-                                <span class="item-weight">(${product.weight})</span>
-                            </div>
-                            <div class="price-unit">${product.price.toLocaleString()} so'm</div>
-                        </div>
-                        <div class="quantity-control">
-                            <button class="qty-btn" onclick="changeQty('${product.name.replace(/'/g, "\\'")}', -1)">−</button>
-                            <span id="qty-${product.name.replace(/\s/g,'')}">${qty}</span>
-                            <button class="qty-btn" onclick="changeQty('${product.name.replace(/'/g, "\\'")}', 1)">+</button>
-                        </div>
-                    </div>
-                `;
-            }
         }
-
         function changeQty(name, delta) {
-            let current = cart[name] || 0;
-            let newVal = current + delta;
-            if (newVal < 0) newVal = 0;
-            if (newVal === 0) delete cart[name];
-            else cart[name] = newVal;
+            let nv = (cart[name] || 0) + delta;
+            if (nv <= 0) delete cart[name]; else cart[name] = nv;
             localStorage.setItem('den_market_cart', JSON.stringify(cart));
-            renderMenu();
-            updateCart();
+            renderMenu(); updateCart();
         }
-
         function updateCart() {
-            const cartDiv = document.getElementById('cartItems');
-            let total = 0;
-            cartDiv.innerHTML = '';
-            for (const [name, qty] of Object.entries(cart)) {
-                const product = PRODUCTS.find(p => p.name === name);
-                if (!product) continue;
-                const sum = product.price * qty;
+            const div = document.getElementById('cartItems');
+            let total = 0; div.innerHTML = '';
+            for (let [name, qty] of Object.entries(cart)) {
+                let p = PRODUCTS.find(x => x.name === name);
+                if (!p) continue;
+                let sum = p.price * qty, weight = parseFloat(p.weight.split(' ')[0]) * qty + ' ' + p.weight.split(' ')[1];
                 total += sum;
-                const totalWeight = getTotalWeight(name, qty);
-                cartDiv.innerHTML += `
-                    <div class="cart-item">
-                        <span>${name} x${qty} = ${totalWeight}</span>
-                        <div class="cart-item-controls">
-                            <span>${sum.toLocaleString()} so'm</span>
-                            <button onclick="changeQty('${name.replace(/'/g, "\\'")}', -1)">−</button>
-                            <button onclick="changeQty('${name.replace(/'/g, "\\'")}', 1)">+</button>
-                        </div>
-                    </div>
-                `;
+                div.innerHTML += `<div class="cart-item"><span>${name} x${qty} = ${weight}</span><div><span>${sum.toLocaleString()} so'm</span><button onclick="changeQty('${name.replace(/'/g, "\\'")}', -1)" style="margin-left:8px;">−</button><button onclick="changeQty('${name.replace(/'/g, "\\'")}', 1)">+</button></div></div>`;
             }
-            if (Object.keys(cart).length === 0) cartDiv.innerHTML = 'Savat bo\'sh';
+            if (!Object.keys(cart).length) div.innerHTML = 'Savat bo\'sh';
             document.getElementById('totalAmount').innerHTML = total.toLocaleString() + ' so\'m';
         }
-
-        document.getElementById('locationBtn').onclick = () => {
-            document.getElementById('locationInfo').innerHTML = '⏳ Lokatsiya yuborilmoqda...';
-            tg.requestLocation();
-        };
-
-        tg.onEvent('locationSent', (location) => {
-            userLocation = { lat: location.latitude, lon: location.longitude };
-            document.getElementById('locationInfo').innerHTML = `✅ Lokatsiya qabul qilindi!<br>📍 ${location.latitude.toFixed(4)}, ${location.longitude.toFixed(4)}`;
-            document.getElementById('address').value = `${location.latitude.toFixed(4)}, ${location.longitude.toFixed(4)}`;
-            tg.showPopup({
-                title: "✅ Manzil qabul qilindi",
-                message: `${location.latitude.toFixed(4)}, ${location.longitude.toFixed(4)}`,
-                buttons: [{ type: "ok" }]
-            });
-        });
-
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            searchTerm = e.target.value;
-            renderMenu();
-        });
-
-        document.getElementById('categorySelect').addEventListener('change', (e) => {
-            selectedCategory = e.target.value;
-            renderMenu();
-        });
-
-        document.getElementById('clearCartBtn').addEventListener('click', () => {
-            if (confirm("Savatni tozalansinmi?")) {
-                cart = {};
-                localStorage.setItem('den_market_cart', JSON.stringify(cart));
-                renderMenu();
-                updateCart();
-            }
-        });
-
+        document.getElementById('searchInput').oninput = e => { searchTerm = e.target.value.toLowerCase(); renderMenu(); };
+        document.getElementById('categorySelect').onchange = e => { selectedCategory = e.target.value; renderMenu(); };
+        document.getElementById('clearCartBtn').onclick = () => { cart = {}; localStorage.setItem('den_market_cart', JSON.stringify(cart)); renderMenu(); updateCart(); };
+        document.getElementById('locationBtn').onclick = () => { tg.requestLocation(); };
+        tg.onEvent('locationSent', (loc) => { userLocation = loc; document.getElementById('locationInfo').innerHTML = `✅ ${loc.latitude}, ${loc.longitude}`; document.getElementById('address').value = `${loc.latitude}, ${loc.longitude}`; });
         document.getElementById('orderBtn').onclick = () => {
-            const phone = document.getElementById('phone').value.trim();
-            const address = document.getElementById('address').value.trim();
-            
-            if (Object.keys(cart).length === 0) {
-                tg.showPopup({ title: "Xatolik", message: "Mahsulot tanlang!" });
-                return;
-            }
-            if (!phone) {
-                tg.showPopup({ title: "Xatolik", message: "Telefon raqam kiriting!" });
-                return;
-            }
-            if (!address && !userLocation) {
-                tg.showPopup({ title: "Xatolik", message: "Manzil yoki lokatsiya kiriting!" });
-                return;
-            }
-            
-            const total = Object.entries(cart).reduce((s, [i,q]) => {
-                const product = PRODUCTS.find(p => p.name === i);
-                return s + (product ? product.price * q : 0);
-            }, 0);
-            
-            const orderData = { 
-                cart, 
-                total, 
-                phone, 
-                address: address || (userLocation ? `${userLocation.lat}, ${userLocation.lon}` : ''),
-                location: userLocation 
-            };
-            tg.sendData(JSON.stringify(orderData));
+            let phone = document.getElementById('phone').value.trim(), addr = document.getElementById('address').value.trim();
+            if (!Object.keys(cart).length) return tg.showPopup({ title: "Xatolik", message: "Mahsulot tanlang!" });
+            if (!phone) return tg.showPopup({ title: "Xatolik", message: "Telefon raqam kiriting!" });
+            if (!addr && !userLocation) return tg.showPopup({ title: "Xatolik", message: "Manzil yoki lokatsiya kiriting!" });
+            let total = Object.entries(cart).reduce((s,[i,q]) => s + (PRODUCTS.find(p => p.name === i)?.price * q || 0), 0);
+            tg.sendData(JSON.stringify({ cart, total, phone, address: addr || `${userLocation?.lat}, ${userLocation?.lon}` }));
             tg.close();
         };
-
-        const themeToggle = document.getElementById('themeToggle');
-        if (localStorage.getItem('theme') === 'light') {
-            document.body.classList.add('light-mode');
-            themeToggle.textContent = '☀️';
-        }
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('light-mode');
-            const isLight = document.body.classList.contains('light-mode');
-            themeToggle.textContent = isLight ? '☀️' : '🌙';
-            localStorage.setItem('theme', isLight ? 'light' : 'dark');
-        });
-
-        renderMenu();
-        updateCart();
+        renderMenu(); updateCart();
     </script>
 </body>
 </html>
