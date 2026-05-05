@@ -2,31 +2,194 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Den Market</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Den Market | Do'koningiz</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
-        body { background: linear-gradient(135deg, #0a0a0a, #0a192f); min-height: 100vh; padding: 20px; color: #fff; }
-        .header { text-align: center; margin-bottom: 30px; }
-        .logo { font-size: 3rem; }
-        .title { font-size: 2rem; background: linear-gradient(135deg, #fff, #ffd89b); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .subtitle { font-size: 0.8rem; opacity: 0.9; margin-top: 5px; }
-        .filters { display: flex; gap: 12px; margin-bottom: 25px; flex-wrap: wrap; }
-        .search-box { flex: 2; padding: 12px 16px; border-radius: 50px; border: none; background: rgba(255,255,255,0.1); color: #fff; font-size: 1rem; }
-        select { flex: 1; padding: 12px 16px; border-radius: 50px; background: rgba(255,255,255,0.1); color: #fff; border: none; }
-        .menu-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
-        .card { background: rgba(255,255,240,0.08); border-radius: 24px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255,255,255,0.15); }
-        .cart-section { background: rgba(0,0,0,0.5); border-radius: 28px; padding: 20px; margin-top: 10px; }
-        .cart-header, .total { display: flex; justify-content: space-between; align-items: center; }
-        .total { padding: 12px 0; border-top: 2px solid rgba(255,255,255,0.1); font-weight: bold; }
-        .total-amount, .price-unit { color: #ffd89b; }
-        .qty-btn { background: rgba(255,255,255,0.15); border: none; width: 34px; height: 34px; border-radius: 50%; font-size: 1.2rem; color: #ffd89b; cursor: pointer; }
-        .location-btn, .btn { width: 100%; padding: 14px; border: none; border-radius: 50px; font-weight: bold; margin-bottom: 12px; background: #3c6e47; color: white; cursor: pointer; }
-        .btn { background: linear-gradient(135deg, #ffd89b, #ffb347); color: #1a1a2e; margin-top: 10px; }
-        input, textarea { width: 100%; padding: 12px; border-radius: 50px; border: none; background: rgba(255,255,255,0.9); font-size: 0.9rem; margin-top: 5px; }
-        textarea { border-radius: 20px; resize: vertical; }
-        .item-weight { font-size: 0.7rem; color: #ffd89b; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0a, #0a192f);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-size: 3rem;
+        }
+
+        .title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #fff, #ffd89b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 2;
+            padding: 10px 16px;
+            border-radius: 50px;
+            border: none;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+
+        select {
+            flex: 1;
+            padding: 10px 16px;
+            border-radius: 50px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: none;
+        }
+
+        .menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(255,255,240,0.08);
+            border-radius: 24px;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .item-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .item-weight {
+            font-size: 0.7rem;
+            color: #ffd89b;
+            margin-left: 5px;
+        }
+
+        .price-unit {
+            font-size: 0.8rem;
+            color: #ffd89b;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .qty-btn {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            color: #ffd89b;
+            cursor: pointer;
+        }
+
+        .cart-section {
+            background: rgba(0,0,0,0.5);
+            border-radius: 24px;
+            padding: 16px;
+        }
+
+        .cart-header {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #ffd89b;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .cart-items {
+            margin-bottom: 12px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .total {
+            display: flex;
+            justify-content: space-between;
+            margin: 12px 0;
+        }
+
+        .location-btn, .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+
+        .location-btn {
+            background: #3c6e47;
+            color: white;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #ffd89b, #ffb347);
+            color: #1a1a2e;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255,255,255,0.9);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 20px;
+            opacity: 0.7;
+        }
     </style>
 </head>
 <body>
@@ -37,10 +200,12 @@
     </div>
 
     <div class="filters">
-        <input type="text" id="searchInput" class="search-box" placeholder="🔍 Mahsulot qidirish...">
+        <input type="text" id="searchInput" class="search-box" placeholder="Mahsulot qidirish...">
         <select id="categorySelect">
-            <option value="all">📋 Hammasi</option><option value="sabzavot">🥕 Sabzavotlar</option>
-            <option value="guruch">🍚 Guruchlar</option><option value="yog">🛢️ Yog'lar</option>
+            <option value="all">📋 Hammasi</option>
+            <option value="sabzavot">🥕 Sabzavotlar</option>
+            <option value="guruch">🍚 Guruchlar</option>
+            <option value="yog">🛢️ Yog'lar</option>
             <option value="boshqa">📦 Boshqa</option>
         </select>
     </div>
@@ -48,80 +213,169 @@
     <div class="menu-list" id="menuList"></div>
 
     <div class="cart-section">
-        <div class="cart-header"><span>🛒 SAVATCHA</span><button class="clear-cart" id="clearCartBtn" style="background:none; border:none; color:#ff6b6b;">🗑️ Tozalash</button></div>
+        <div class="cart-header">
+            <span>🛒 SAVATCHA</span>
+            <button class="clear-cart" id="clearCartBtn">🗑️ Tozalash</button>
+        </div>
         <div class="cart-items" id="cartItems">Savat bo'sh</div>
-        <div class="total"><span>💰 Jami</span><span class="total-amount" id="totalAmount">0 so'm</span></div>
+        <div class="total">
+            <span>💰 Jami</span>
+            <span id="totalAmount">0 so'm</span>
+        </div>
+
         <button class="location-btn" id="locationBtn">📍 Lokatsiyani yuborish</button>
-        <div id="locationInfo" class="location-info" style="background:rgba(60,110,71,0.2); border-radius:12px; padding:8px; margin-bottom:12px; font-size:0.75rem;"></div>
-        <div class="input-group"><div class="input-label">📞 Telefon raqam</div><input type="tel" id="phone" placeholder="+998 __ ___ __ __"></div>
-        <div class="input-group"><div class="input-label">📍 Yetkazib berish manzili</div><textarea id="address" rows="2" placeholder="Ko'cha, uy, tuman, shahar..."></textarea></div>
+        <div id="locationInfo" style="font-size:0.7rem; text-align:center; margin:8px 0; color:#ffd89b;"></div>
+
+        <input type="tel" id="phone" placeholder="📞 Telefon raqam">
+        <textarea id="address" rows="2" placeholder="📍 Yetkazib berish manzili"></textarea>
+
         <button class="btn" id="orderBtn">✅ BUYURTMA BERISH</button>
     </div>
-    <footer style="text-align:center; margin-top:20px; font-size:0.7rem;">Den Market 2026 | Sifatli xizmat</footer>
 
     <script>
         const tg = window.Telegram.WebApp;
-        tg.expand(); tg.ready();
+        tg.expand();
+        tg.ready();
+
+        // Mahsulotlar - har bir birlik og'irligi
         const PRODUCTS = [
-            { name: "Kartoshka", price: 7000, weight: "1 kg", category: "sabzavot" },
-            { name: "Piyoz", price: 2000, weight: "1 kg", category: "sabzavot" },
-            { name: "Sabzi qizil", price: 4000, weight: "1 kg", category: "sabzavot" },
-            { name: "Sabzi sariq", price: 3300, weight: "1 kg", category: "sabzavot" },
-            { name: "Guruch xorazm Lazer", price: 14000, weight: "1 kg", category: "guruch" },
-            { name: "Guruch Rishton Lazer", price: 13000, weight: "1 kg", category: "guruch" },
-            { name: "Tuz roxat", price: 5000, weight: "1 kg", category: "boshqa" },
-            { name: "Kok Choy", price: 20000, weight: "0.5 kg", category: "boshqa" },
-            { name: "Donya yog'", price: 100000, weight: "5 L", category: "yog" },
-            { name: "Farg'ona yog'", price: 68000, weight: "3.6 kg", category: "yog" },
-            { name: "Lazzat yog'", price: 100000, weight: "5 L", category: "yog" }
+            { name: "Kartoshka", price: 7000, unitWeight: 1, unitName: "kg", category: "sabzavot" },
+            { name: "Piyoz", price: 2000, unitWeight: 1, unitName: "kg", category: "sabzavot" },
+            { name: "Sabzi qizil", price: 4000, unitWeight: 1, unitName: "kg", category: "sabzavot" },
+            { name: "Sabzi sariq", price: 3300, unitWeight: 1, unitName: "kg", category: "sabzavot" },
+            { name: "Guruch xorazm Lazer", price: 14000, unitWeight: 1, unitName: "kg", category: "guruch" },
+            { name: "Guruch Rishton Lazer", price: 13000, unitWeight: 1, unitName: "kg", category: "guruch" },
+            { name: "Tuz roxat", price: 5000, unitWeight: 1, unitName: "kg", category: "boshqa" },
+            { name: "Kok Choy", price: 20000, unitWeight: 0.5, unitName: "kg", category: "boshqa" },
+            { name: "Donya yog'", price: 100000, unitWeight: 5, unitName: "L", category: "yog" },
+            { name: "Farg'ona yog'", price: 68000, unitWeight: 3.6, unitName: "kg", category: "yog" },
+            { name: "Lazzat yog'", price: 100000, unitWeight: 5, unitName: "L", category: "yog" }
         ];
+
         let cart = JSON.parse(localStorage.getItem('den_market_cart')) || {};
-        let searchTerm = '', selectedCategory = 'all', userLocation = null;
+        let userLocation = null;
+        let searchTerm = '';
+        let selectedCategory = 'all';
+
+        // Umumiy og'irlikni hisoblash
+        function getTotalWeight(product, qty) {
+            const totalWeight = product.unitWeight * qty;
+            return `${totalWeight} ${product.unitName}`;
+        }
 
         function renderMenu() {
             const container = document.getElementById('menuList');
+            if (!container) return;
             container.innerHTML = '';
-            const filtered = PRODUCTS.filter(p => p.name.toLowerCase().includes(searchTerm) && (selectedCategory === 'all' || p.category === selectedCategory));
-            if (filtered.length === 0) { container.innerHTML = '<div class="no-results">❌ Hech narsa topilmadi</div>'; return; }
-            filtered.forEach(p => {
-                const qty = cart[p.name] || 0;
-                container.innerHTML += `<div class="card"><div><div class="item-name">${p.name} <span class="item-weight">(${p.weight})</span></div><div class="price-unit">${p.price.toLocaleString()} so'm</div></div><div class="quantity-control"><button class="qty-btn" onclick="changeQty('${p.name.replace(/'/g, "\\'")}', -1)">−</button><span id="qty-${p.name.replace(/\s/g,'')}">${qty}</span><button class="qty-btn" onclick="changeQty('${p.name.replace(/'/g, "\\'")}', 1)">+</button></div></div>`;
+            
+            const filtered = PRODUCTS.filter(p => {
+                return p.name.toLowerCase().includes(searchTerm) && (selectedCategory === 'all' || p.category === selectedCategory);
             });
-        }
-        function changeQty(name, delta) {
-            let nv = (cart[name] || 0) + delta;
-            if (nv <= 0) delete cart[name]; else cart[name] = nv;
-            localStorage.setItem('den_market_cart', JSON.stringify(cart));
-            renderMenu(); updateCart();
-        }
-        function updateCart() {
-            const div = document.getElementById('cartItems');
-            let total = 0; div.innerHTML = '';
-            for (let [name, qty] of Object.entries(cart)) {
-                let p = PRODUCTS.find(x => x.name === name);
-                if (!p) continue;
-                let sum = p.price * qty, weight = parseFloat(p.weight.split(' ')[0]) * qty + ' ' + p.weight.split(' ')[1];
-                total += sum;
-                div.innerHTML += `<div class="cart-item"><span>${name} x${qty} = ${weight}</span><div><span>${sum.toLocaleString()} so'm</span><button onclick="changeQty('${name.replace(/'/g, "\\'")}', -1)" style="margin-left:8px;">−</button><button onclick="changeQty('${name.replace(/'/g, "\\'")}', 1)">+</button></div></div>`;
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="no-results">❌ Hech narsa topilmadi</div>';
+                return;
             }
-            if (!Object.keys(cart).length) div.innerHTML = 'Savat bo\'sh';
+
+            for (const p of filtered) {
+                const qty = cart[p.name] || 0;
+                const weight = getTotalWeight(p, qty);
+                container.innerHTML += `
+                    <div class="card">
+                        <div>
+                            <div class="item-name">
+                                ${p.name}
+                            </div>
+                            <div class="price-unit">${p.price.toLocaleString()} so'm / ${p.unitWeight} ${p.unitName}</div>
+                        </div>
+                        <div class="quantity-control">
+                            <button class="qty-btn" onclick="changeQty('${p.name.replace(/'/g, "\\'")}', -1)">−</button>
+                            <span style="min-width:25px; text-align:center;">${qty}</span>
+                            <button class="qty-btn" onclick="changeQty('${p.name.replace(/'/g, "\\'")}', 1)">+</button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function changeQty(name, delta) {
+            let current = cart[name] || 0;
+            let newVal = current + delta;
+            if (newVal < 0) newVal = 0;
+            if (newVal === 0) delete cart[name];
+            else cart[name] = newVal;
+            localStorage.setItem('den_market_cart', JSON.stringify(cart));
+            renderMenu();
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartDiv = document.getElementById('cartItems');
+            let total = 0;
+            cartDiv.innerHTML = '';
+            for (const [name, qty] of Object.entries(cart)) {
+                const p = PRODUCTS.find(i => i.name === name);
+                if (!p) continue;
+                const sum = p.price * qty;
+                total += sum;
+                const weight = getTotalWeight(p, qty);
+                cartDiv.innerHTML += `
+                    <div class="cart-item">
+                        <span>${name} x${qty} = ${weight}</span>
+                        <div class="cart-item-controls">
+                            <span>${sum.toLocaleString()} so'm</span>
+                            <button onclick="changeQty('${name.replace(/'/g, "\\'")}', -1)" style="background:rgba(255,255,255,0.2); border:none; width:26px; height:26px; border-radius:50%; cursor:pointer;">−</button>
+                            <button onclick="changeQty('${name.replace(/'/g, "\\'")}', 1)" style="background:rgba(255,255,255,0.2); border:none; width:26px; height:26px; border-radius:50%; cursor:pointer;">+</button>
+                        </div>
+                    </div>
+                `;
+            }
+            if (Object.keys(cart).length === 0) cartDiv.innerHTML = 'Savat bo\'sh';
             document.getElementById('totalAmount').innerHTML = total.toLocaleString() + ' so\'m';
         }
-        document.getElementById('searchInput').oninput = e => { searchTerm = e.target.value.toLowerCase(); renderMenu(); };
-        document.getElementById('categorySelect').onchange = e => { selectedCategory = e.target.value; renderMenu(); };
-        document.getElementById('clearCartBtn').onclick = () => { cart = {}; localStorage.setItem('den_market_cart', JSON.stringify(cart)); renderMenu(); updateCart(); };
-        document.getElementById('locationBtn').onclick = () => { tg.requestLocation(); };
-        tg.onEvent('locationSent', (loc) => { userLocation = loc; document.getElementById('locationInfo').innerHTML = `✅ ${loc.latitude}, ${loc.longitude}`; document.getElementById('address').value = `${loc.latitude}, ${loc.longitude}`; });
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchTerm = e.target.value.toLowerCase();
+            renderMenu();
+        });
+
+        document.getElementById('categorySelect').addEventListener('change', (e) => {
+            selectedCategory = e.target.value;
+            renderMenu();
+        });
+
+        document.getElementById('clearCartBtn').addEventListener('click', () => {
+            if (confirm("Savatni tozalansinmi?")) {
+                cart = {};
+                localStorage.setItem('den_market_cart', JSON.stringify(cart));
+                renderMenu();
+                updateCart();
+            }
+        });
+
+        document.getElementById('locationBtn').onclick = () => {
+            tg.requestLocation();
+        };
+
+        tg.onEvent('locationSent', (loc) => {
+            userLocation = loc;
+            document.getElementById('locationInfo').innerHTML = `✅ Lokatsiya qabul qilindi!<br>📍 ${loc.latitude.toFixed(4)}, ${loc.longitude.toFixed(4)}`;
+            document.getElementById('address').value = `${loc.latitude.toFixed(4)}, ${loc.longitude.toFixed(4)}`;
+        });
+
         document.getElementById('orderBtn').onclick = () => {
-            let phone = document.getElementById('phone').value.trim(), addr = document.getElementById('address').value.trim();
-            if (!Object.keys(cart).length) return tg.showPopup({ title: "Xatolik", message: "Mahsulot tanlang!" });
+            const phone = document.getElementById('phone').value.trim();
+            const address = document.getElementById('address').value.trim();
+            if (Object.keys(cart).length === 0) return tg.showPopup({ title: "Xatolik", message: "Mahsulot tanlang!" });
             if (!phone) return tg.showPopup({ title: "Xatolik", message: "Telefon raqam kiriting!" });
-            if (!addr && !userLocation) return tg.showPopup({ title: "Xatolik", message: "Manzil yoki lokatsiya kiriting!" });
-            let total = Object.entries(cart).reduce((s,[i,q]) => s + (PRODUCTS.find(p => p.name === i)?.price * q || 0), 0);
-            tg.sendData(JSON.stringify({ cart, total, phone, address: addr || `${userLocation?.lat}, ${userLocation?.lon}` }));
+            if (!address && !userLocation) return tg.showPopup({ title: "Xatolik", message: "Manzil yoki lokatsiya kiriting!" });
+            const total = Object.entries(cart).reduce((s, [n,q]) => s + (PRODUCTS.find(p=>p.name===n)?.price * q || 0), 0);
+            tg.sendData(JSON.stringify({ cart, total, phone, address: address || (userLocation ? `${userLocation.latitude},${userLocation.longitude}` : '') }));
             tg.close();
         };
-        renderMenu(); updateCart();
+
+        renderMenu();
+        updateCart();
     </script>
 </body>
 </html>
