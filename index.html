@@ -10,7 +10,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            font-family: 'Inter', system-ui, sans-serif;
         }
 
         body {
@@ -18,28 +18,14 @@
             min-height: 100vh;
             padding: 20px;
             color: #fff;
-            position: relative;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 0%, rgba(255, 216, 155, 0.08) 0%, transparent 70%);
-            pointer-events: none;
         }
 
         .container {
             max-width: 550px;
             margin: 0 auto;
-            position: relative;
-            z-index: 1;
         }
 
-        /* ========== HAVODA UCHAYOTGAN HEADER ========== */
+        /* HAVODA UCHADIGAN HEADER */
         .header {
             text-align: center;
             margin-bottom: 30px;
@@ -57,12 +43,11 @@
             align-items: center;
             justify-content: center;
             gap: 12px;
-            margin-bottom: 10px;
         }
 
         .brand-icon {
             font-size: 3rem;
-            filter: drop-shadow(0 0 15px rgba(255, 216, 155, 0.4));
+            filter: drop-shadow(0 0 10px rgba(255, 216, 155, 0.4));
             animation: iconGlow 2s ease-in-out infinite;
         }
 
@@ -74,7 +59,6 @@
         .brand-name {
             font-size: 2rem;
             font-weight: 800;
-            letter-spacing: 1px;
             background: linear-gradient(135deg, #fff, #ffd89b, #ffb347);
             -webkit-background-clip: text;
             background-clip: text;
@@ -85,16 +69,16 @@
             font-size: 0.7rem;
             color: #ffd89b;
             letter-spacing: 2px;
-            text-transform: uppercase;
-            animation: textGlow 2s ease-in-out infinite;
+            margin-top: 8px;
+            animation: textFloat 2s ease-in-out infinite;
         }
 
-        @keyframes textGlow {
-            0%, 100% { text-shadow: 0 0 2px rgba(255, 216, 155, 0.3); }
-            50% { text-shadow: 0 0 10px rgba(255, 216, 155, 0.6); }
+        @keyframes textFloat {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; text-shadow: 0 0 8px rgba(255, 216, 155, 0.5); }
         }
 
-        /* Qidiruv va filtrlash */
+        /* Qidiruv */
         .filters {
             display: flex;
             gap: 12px;
@@ -102,24 +86,21 @@
             flex-wrap: wrap;
         }
 
-        .search-box {
-            flex: 2;
+        .search-box, select {
             padding: 14px 18px;
             border-radius: 50px;
             border: 1px solid rgba(255, 216, 155, 0.2);
             background: rgba(255, 255, 255, 0.05);
             color: #fff;
             font-size: 0.9rem;
-            backdrop-filter: blur(10px);
         }
 
-        select {
-            flex: 1;
-            padding: 14px 18px;
-            border-radius: 50px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 216, 155, 0.2);
-            color: #fff;
+        .search-box { flex: 2; }
+        select { flex: 1; }
+
+        .search-box:focus, select:focus {
+            outline: none;
+            border-color: #ffd89b;
         }
 
         /* Mahsulotlar */
@@ -138,14 +119,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid rgba(255, 216, 155, 0.15);
-            transition: 0.2s;
         }
 
         .product-name {
             font-weight: 600;
             font-size: 1rem;
-            margin-bottom: 4px;
         }
 
         .product-weight {
@@ -155,6 +133,7 @@
             padding: 2px 8px;
             border-radius: 20px;
             display: inline-block;
+            margin-left: 6px;
         }
 
         .product-price {
@@ -179,7 +158,7 @@
             cursor: pointer;
         }
 
-        /* Savatcha (uchuvchi) */
+        /* Savatcha */
         .cart-section {
             background: rgba(10, 10, 25, 0.7);
             backdrop-filter: blur(15px);
@@ -203,18 +182,8 @@
             border-bottom: 1px solid rgba(255, 216, 155, 0.15);
         }
 
-        .cart-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #ffd89b;
-        }
-
-        .clear-cart {
-            background: none;
-            border: none;
-            color: #ff6b6b;
-            cursor: pointer;
-        }
+        .cart-title { font-size: 1.1rem; font-weight: 600; color: #ffd89b; }
+        .clear-cart { background: none; border: none; color: #ff6b6b; cursor: pointer; }
 
         .cart-items {
             max-height: 200px;
@@ -228,7 +197,6 @@
             align-items: center;
             padding: 8px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 0.85rem;
         }
 
         .cart-item-controls {
@@ -256,30 +224,41 @@
             font-weight: bold;
         }
 
-        .total-amount {
-            color: #ffd89b;
-            font-size: 1.2rem;
+        .total-amount { color: #ffd89b; font-size: 1.2rem; }
+
+        /* TELEFON + LOKATSIYA BIR QATODA */
+        .info-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin: 12px 0;
         }
 
-        /* LOKATSIYA TUGMASI */
-        .location-btn {
-            width: 100%;
-            padding: 16px;
-            border: none;
+        .phone-input {
+            flex: 2;
+            padding: 14px;
             border-radius: 50px;
-            font-size: 1rem;
+            border: 1px solid rgba(255, 216, 155, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .location-send-btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 50px;
+            border: none;
             font-weight: 600;
             background: linear-gradient(135deg, #2a5a35, #1e3a25);
             color: white;
             cursor: pointer;
-            margin: 12px 0;
-            transition: all 0.3s;
-            animation: btnPulse 2s ease-in-out infinite;
+            transition: all 0.2s;
         }
 
-        @keyframes btnPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(60, 110, 71, 0.3); }
-            50% { transform: scale(1.02); box-shadow: 0 0 25px rgba(60, 110, 71, 0.6); }
+        .location-send-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(60, 110, 71, 0.5);
         }
 
         .location-info {
@@ -287,27 +266,6 @@
             text-align: center;
             color: #ffd89b;
             margin-bottom: 12px;
-        }
-
-        .input-group {
-            margin: 12px 0;
-        }
-
-        .input-label {
-            font-size: 0.7rem;
-            opacity: 0.7;
-            margin-bottom: 5px;
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 12px 16px;
-            border: none;
-            border-radius: 30px;
-            background: rgba(255, 255, 255, 0.08);
-            color: #fff;
-            font-size: 0.85rem;
-            border: 1px solid rgba(255, 216, 155, 0.15);
         }
 
         .order-btn {
@@ -339,7 +297,6 @@
 </head>
 <body>
     <div class="container">
-        <!-- HAVODA UCHAYOTGAN HEADER -->
         <div class="header">
             <div class="brand">
                 <span class="brand-icon">🏪</span>
@@ -373,19 +330,12 @@
                 <span class="total-amount" id="totalAmount">0 so'm</span>
             </div>
 
-            <!-- LOKATSIYA TUGMASI (o'zi) -->
-            <button class="location-btn" id="locationBtn">📍 LOKATSIYANI YUBORISH</button>
+            <!-- TELEFON + LOKATSIYA BIR QATORDA (MANZIL YOZUVSIZ) -->
+            <div class="info-row">
+                <input type="tel" id="phone" class="phone-input" placeholder="📞 Telefon raqam">
+                <button class="location-send-btn" id="locationBtn">📍 Lokatsiya</button>
+            </div>
             <div id="locationInfo" class="location-info"></div>
-
-            <div class="input-group">
-                <div class="input-label">📞 TELEFON RAQAM</div>
-                <input type="tel" id="phone" placeholder="+998 __ ___ __ __">
-            </div>
-
-            <div class="input-group">
-                <div class="input-label">📍 YETKAZIB BERISH MANZILI</div>
-                <textarea id="address" rows="2" placeholder="Ko'cha, uy, tuman, shahar..."></textarea>
-            </div>
 
             <button class="order-btn" id="orderBtn">✅ BUYURTMA BERISH</button>
         </div>
@@ -415,6 +365,7 @@
             let cart = JSON.parse(localStorage.getItem('den_market_cart')) || {};
             let searchTerm = '';
             let selectedCategory = 'all';
+            let currentLocation = null;
 
             function renderMenu() {
                 const container = document.getElementById('menuList');
@@ -501,23 +452,25 @@
             const locationBtn = document.getElementById('locationBtn');
             const locationInfo = document.getElementById('locationInfo');
 
-            locationBtn.addEventListener('click', function() {
+            locationBtn.addEventListener('click', () => {
                 locationInfo.innerHTML = '⏳ Lokatsiya so‘ralmoqda...';
                 tg.requestLocation();
             });
 
-            tg.onEvent('locationSent', function(loc) {
-                locationInfo.innerHTML = '✅ Lokatsiya qabul qilindi!<br>📍 ' + loc.latitude.toFixed(4) + ', ' + loc.longitude.toFixed(4);
-                document.getElementById('address').value = loc.latitude.toFixed(4) + ', ' + loc.longitude.toFixed(4);
+            tg.onEvent('locationSent', (loc) => {
+                currentLocation = loc;
+                const lat = loc.latitude.toFixed(6);
+                const lon = loc.longitude.toFixed(6);
+                locationInfo.innerHTML = '✅ Lokatsiya qabul qilindi!<br>📍 ' + lat + ', ' + lon;
             });
 
-            tg.onEvent('locationFailed', function(err) {
-                locationInfo.innerHTML = '❌ Lokatsiya yuborilmadi. Iltimos, ruxsat bering.';
+            tg.onEvent('locationFailed', () => {
+                locationInfo.innerHTML = '❌ Lokatsiya yuborilmadi. Ruxsat bering.';
             });
 
-            document.getElementById('orderBtn').addEventListener('click', function() {
+            // BUYURTMA BERISH
+            document.getElementById('orderBtn').addEventListener('click', () => {
                 const phone = document.getElementById('phone').value.trim();
-                const address = document.getElementById('address').value.trim();
                 if (Object.keys(cart).length === 0) {
                     tg.showPopup({ title: "Xatolik", message: "Mahsulot tanlang!" });
                     return;
@@ -526,12 +479,20 @@
                     tg.showPopup({ title: "Xatolik", message: "Telefon raqam kiriting!" });
                     return;
                 }
-                if (!address) {
-                    tg.showPopup({ title: "Xatolik", message: "Manzil kiriting!" });
+                if (!currentLocation) {
+                    tg.showPopup({ title: "Xatolik", message: "Iltimos, lokatsiyani yuboring!" });
                     return;
                 }
+
                 const total = Object.entries(cart).reduce((s, [n,q]) => s + (PRODUCTS.find(p=>p.name===n)?.price * q || 0), 0);
-                tg.sendData(JSON.stringify({ cart, total, phone, address }));
+                const orderData = {
+                    cart: cart,
+                    total: total,
+                    phone: phone,
+                    location: currentLocation,
+                    address: currentLocation ? `${currentLocation.latitude}, ${currentLocation.longitude}` : ''
+                };
+                tg.sendData(JSON.stringify(orderData));
                 tg.close();
             });
 
