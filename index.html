@@ -2,234 +2,436 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Den Market | Do'koningiz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Den Market | Neon</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #0a0a0a, #0a192f);
+            background: radial-gradient(circle at 20% 30%, #0a0a0a, #030318);
             min-height: 100vh;
             padding: 20px;
             color: #fff;
+            position: relative;
         }
 
+        /* Nur (glow) effekti uchun fon */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 0%, rgba(255, 216, 155, 0.15) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* HEADER — nur taralib turgan */
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            padding: 20px 0;
+            animation: glowPulse 3s ease-in-out infinite;
         }
 
-        .logo {
+        @keyframes glowPulse {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(255, 216, 155, 0.5)); }
+            50% { filter: drop-shadow(0 0 20px rgba(255, 216, 155, 0.8)); }
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .brand-icon {
             font-size: 3rem;
+            filter: drop-shadow(0 0 10px #ffd89b);
+            animation: iconFloat 2s ease-in-out infinite;
         }
 
-        .title {
-            font-size: 1.8rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, #fff, #ffd89b);
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .brand-name {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #fff, #ffd89b, #ffb347);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            text-shadow: 0 0 15px rgba(255, 216, 155, 0.5);
         }
 
-        .subtitle {
-            font-size: 0.8rem;
-            opacity: 0.9;
+        .brand-slogan {
+            font-size: 0.7rem;
+            color: #ffd89b;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-shadow: 0 0 8px rgba(255, 216, 155, 0.5);
         }
 
+        /* Qidiruv va filtrlash */
         .filters {
             display: flex;
             gap: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             flex-wrap: wrap;
         }
 
         .search-box {
             flex: 2;
-            padding: 10px 16px;
+            padding: 14px 18px;
             border-radius: 50px;
-            border: none;
-            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255, 216, 155, 0.3);
+            background: rgba(255, 255, 255, 0.05);
             color: #fff;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(255, 216, 155, 0.1);
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #ffd89b;
+            box-shadow: 0 0 20px rgba(255, 216, 155, 0.4);
         }
 
         select {
             flex: 1;
-            padding: 10px 16px;
+            padding: 14px 18px;
             border-radius: 50px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 216, 155, 0.3);
             color: #fff;
-            border: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
         }
 
+        /* Mahsulotlar ro'yxati */
         .menu-list {
             display: flex;
             flex-direction: column;
             gap: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
-        .card {
-            background: rgba(255,255,240,0.08);
-            border-radius: 24px;
-            padding: 12px 16px;
+        .product-card {
+            background: rgba(20, 20, 40, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 16px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid rgba(255,255,255,0.15);
+            border: 1px solid rgba(255, 216, 155, 0.2);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 216, 155, 0.05);
         }
 
-        .item-name {
+        .product-card:hover {
+            border-color: rgba(255, 216, 155, 0.6);
+            transform: translateX(5px);
+            box-shadow: 0 0 25px rgba(255, 216, 155, 0.2);
+        }
+
+        .product-name {
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 1rem;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
         }
 
-        .item-weight {
+        .product-weight {
             font-size: 0.7rem;
             color: #ffd89b;
-            margin-left: 5px;
+            background: rgba(255, 216, 155, 0.15);
+            padding: 2px 10px;
+            border-radius: 30px;
         }
 
-        .price-unit {
+        .product-price {
             font-size: 0.8rem;
             color: #ffd89b;
+            font-weight: 500;
+            text-shadow: 0 0 5px rgba(255, 216, 155, 0.3);
         }
 
         .quantity-control {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .qty-btn {
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 216, 155, 0.15);
             border: none;
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
+            font-size: 1.2rem;
+            font-weight: bold;
             color: #ffd89b;
             cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 0 10px rgba(255, 216, 155, 0.2);
         }
 
+        .qty-btn:hover {
+            background: #ffd89b;
+            color: #1a1a2e;
+            box-shadow: 0 0 20px #ffd89b;
+        }
+
+        /* Savatcha */
         .cart-section {
-            background: rgba(0,0,0,0.5);
-            border-radius: 24px;
-            padding: 16px;
+            background: rgba(10, 10, 25, 0.7);
+            backdrop-filter: blur(15px);
+            border-radius: 28px;
+            padding: 20px;
+            margin-top: 10px;
+            border: 1px solid rgba(255, 216, 155, 0.2);
+            box-shadow: 0 0 30px rgba(255, 216, 155, 0.1);
         }
 
         .cart-header {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #ffd89b;
             display: flex;
             justify-content: space-between;
-            margin-bottom: 12px;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 216, 155, 0.15);
+        }
+
+        .cart-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffd89b;
+            text-shadow: 0 0 8px rgba(255, 216, 155, 0.5);
+        }
+
+        .clear-cart {
+            background: none;
+            border: none;
+            color: #ff6b6b;
+            font-size: 0.75rem;
+            cursor: pointer;
         }
 
         .cart-items {
-            margin-bottom: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-bottom: 15px;
         }
 
         .cart-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 6px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.85rem;
         }
 
         .cart-item-controls {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+        }
+
+        .cart-item-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: #ffd89b;
         }
 
         .total {
             display: flex;
             justify-content: space-between;
-            margin: 12px 0;
+            align-items: center;
+            padding: 12px 0;
+            border-top: 1px solid rgba(255, 216, 155, 0.2);
+            font-weight: bold;
         }
 
-        .location-btn, .btn {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 50px;
-            font-weight: bold;
-            margin-top: 8px;
-            cursor: pointer;
+        .total-amount {
+            color: #ffd89b;
+            font-size: 1.2rem;
+            text-shadow: 0 0 8px rgba(255, 216, 155, 0.5);
         }
 
         .location-btn {
-            background: #3c6e47;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #2a5a35, #1e3a25);
             color: white;
+            cursor: pointer;
+            margin: 12px 0;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(60, 110, 71, 0.3);
         }
 
-        .btn {
-            background: linear-gradient(135deg, #ffd89b, #ffb347);
-            color: #1a1a2e;
+        .location-btn:hover {
+            box-shadow: 0 0 25px rgba(60, 110, 71, 0.6);
+        }
+
+        .location-info {
+            font-size: 0.7rem;
+            text-align: center;
+            color: #ffd89b;
+            margin-bottom: 12px;
+            text-shadow: 0 0 5px rgba(255, 216, 155, 0.3);
+        }
+
+        .input-group {
+            margin: 12px 0;
+        }
+
+        .input-label {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-bottom: 5px;
+            display: block;
         }
 
         input, textarea {
             width: 100%;
-            padding: 10px;
-            margin: 8px 0;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255, 216, 155, 0.2);
+            transition: all 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #ffd89b;
+            box-shadow: 0 0 15px rgba(255, 216, 155, 0.3);
+        }
+
+        .order-btn {
+            width: 100%;
+            padding: 16px;
             border: none;
             border-radius: 50px;
-            background: rgba(255,255,255,0.9);
+            font-size: 1rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ffd89b, #ffb347);
+            color: #0a0a0a;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+            box-shadow: 0 0 20px rgba(255, 216, 155, 0.3);
+        }
+
+        .order-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 35px rgba(255, 216, 155, 0.5);
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.6rem;
+            margin-top: 20px;
+            opacity: 0.5;
         }
 
         .no-results {
             text-align: center;
-            padding: 20px;
-            opacity: 0.7;
+            padding: 30px;
+            opacity: 0.6;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo">🏪📦</div>
-        <div class="title">DEN MARKET</div>
-        <div class="subtitle">Hamma narsa bor, sifatli va arzon</div>
-    </div>
-
-    <div class="filters">
-        <input type="text" id="searchInput" class="search-box" placeholder="Mahsulot qidirish...">
-        <select id="categorySelect">
-            <option value="all">📋 Hammasi</option>
-            <option value="sabzavot">🥕 Sabzavotlar</option>
-            <option value="guruch">🍚 Guruchlar</option>
-            <option value="yog">🛢️ Yog'lar</option>
-            <option value="boshqa">📦 Boshqa</option>
-        </select>
-    </div>
-
-    <div class="menu-list" id="menuList"></div>
-
-    <div class="cart-section">
-        <div class="cart-header">
-            <span>🛒 SAVATCHA</span>
-            <button class="clear-cart" id="clearCartBtn">🗑️ Tozalash</button>
-        </div>
-        <div class="cart-items" id="cartItems">Savat bo'sh</div>
-        <div class="total">
-            <span>💰 Jami</span>
-            <span id="totalAmount">0 so'm</span>
+    <div class="container">
+        <div class="header">
+            <div class="brand">
+                <span class="brand-icon">🏪</span>
+                <span class="brand-name">DEN MARKET</span>
+                <span class="brand-icon">📦</span>
+            </div>
+            <div class="brand-slogan">PREMIUM SIFAT · TEZ YETKAZIB BERISH</div>
         </div>
 
-        <button class="location-btn" id="locationBtn">📍 Lokatsiyani yuborish</button>
-        <div id="locationInfo" style="font-size:0.7rem; text-align:center; margin:8px 0; color:#ffd89b;"></div>
+        <div class="filters">
+            <input type="text" id="searchInput" class="search-box" placeholder="🔍 Mahsulot qidirish...">
+            <select id="categorySelect">
+                <option value="all">📋 HAMMASI</option>
+                <option value="sabzavot">🥕 SABZAVOTLAR</option>
+                <option value="guruch">🍚 GURUCHLAR</option>
+                <option value="yog">🛢️ YOG'LAR</option>
+                <option value="boshqa">📦 BOSHQALAR</option>
+            </select>
+        </div>
 
-        <input type="tel" id="phone" placeholder="📞 Telefon raqam">
-        <textarea id="address" rows="2" placeholder="📍 Yetkazib berish manzili"></textarea>
+        <div class="menu-list" id="menuList"></div>
 
-        <button class="btn" id="orderBtn">✅ BUYURTMA BERISH</button>
+        <div class="cart-section">
+            <div class="cart-header">
+                <span class="cart-title">🛒 SAVATCHA</span>
+                <button class="clear-cart" id="clearCartBtn">🗑️ Tozalash</button>
+            </div>
+            <div class="cart-items" id="cartItems">Savat bo'sh</div>
+            <div class="total">
+                <span>💰 JAMI</span>
+                <span class="total-amount" id="totalAmount">0 so'm</span>
+            </div>
+
+            <button class="location-btn" id="locationBtn">📍 LOKATSIYANI YUBORISH</button>
+            <div id="locationInfo" class="location-info"></div>
+
+            <div class="input-group">
+                <div class="input-label">📞 TELEFON RAQAM</div>
+                <input type="tel" id="phone" placeholder="+998 __ ___ __ __">
+            </div>
+
+            <div class="input-group">
+                <div class="input-label">📍 YETKAZIB BERISH MANZILI</div>
+                <textarea id="address" rows="2" placeholder="Ko'cha, uy, tuman, shahar..."></textarea>
+            </div>
+
+            <button class="order-btn" id="orderBtn">✅ BUYURTMA BERISH</button>
+        </div>
+
+        <footer>Den Market 2026 | Premium sifat · Tez yetkazib berish</footer>
     </div>
 
     <script>
@@ -237,19 +439,18 @@
         tg.expand();
         tg.ready();
 
-        // Mahsulotlar - har bir birlik og'irligi
         const PRODUCTS = [
-            { name: "Kartoshka", price: 7000, unitWeight: 1, unitName: "kg", category: "sabzavot" },
-            { name: "Piyoz", price: 2000, unitWeight: 1, unitName: "kg", category: "sabzavot" },
-            { name: "Sabzi qizil", price: 4000, unitWeight: 1, unitName: "kg", category: "sabzavot" },
-            { name: "Sabzi sariq", price: 3300, unitWeight: 1, unitName: "kg", category: "sabzavot" },
-            { name: "Guruch xorazm Lazer", price: 14000, unitWeight: 1, unitName: "kg", category: "guruch" },
-            { name: "Guruch Rishton Lazer", price: 13000, unitWeight: 1, unitName: "kg", category: "guruch" },
-            { name: "Tuz roxat", price: 5000, unitWeight: 1, unitName: "kg", category: "boshqa" },
-            { name: "Kok Choy", price: 20000, unitWeight: 0.5, unitName: "kg", category: "boshqa" },
-            { name: "Donya yog'", price: 100000, unitWeight: 5, unitName: "L", category: "yog" },
-            { name: "Farg'ona yog'", price: 68000, unitWeight: 3.6, unitName: "kg", category: "yog" },
-            { name: "Lazzat yog'", price: 100000, unitWeight: 5, unitName: "L", category: "yog" }
+            { name: "Kartoshka", price: 7000, weight: "1 kg", category: "sabzavot" },
+            { name: "Piyoz", price: 2000, weight: "1 kg", category: "sabzavot" },
+            { name: "Sabzi qizil", price: 4000, weight: "1 kg", category: "sabzavot" },
+            { name: "Sabzi sariq", price: 3300, weight: "1 kg", category: "sabzavot" },
+            { name: "Guruch xorazm Lazer", price: 14000, weight: "1 kg", category: "guruch" },
+            { name: "Guruch Rishton Lazer", price: 13000, weight: "1 kg", category: "guruch" },
+            { name: "Tuz roxat", price: 5000, weight: "1 kg", category: "boshqa" },
+            { name: "Kok Choy", price: 20000, weight: "0.5 kg", category: "boshqa" },
+            { name: "Donya yog'", price: 100000, weight: "5 L", category: "yog" },
+            { name: "Farg'ona yog'", price: 68000, weight: "3.6 kg", category: "yog" },
+            { name: "Lazzat yog'", price: 100000, weight: "5 L", category: "yog" }
         ];
 
         let cart = JSON.parse(localStorage.getItem('den_market_cart')) || {};
@@ -257,17 +458,11 @@
         let searchTerm = '';
         let selectedCategory = 'all';
 
-        // Umumiy og'irlikni hisoblash
-        function getTotalWeight(product, qty) {
-            const totalWeight = product.unitWeight * qty;
-            return `${totalWeight} ${product.unitName}`;
-        }
-
         function renderMenu() {
             const container = document.getElementById('menuList');
             if (!container) return;
             container.innerHTML = '';
-            
+
             const filtered = PRODUCTS.filter(p => {
                 return p.name.toLowerCase().includes(searchTerm) && (selectedCategory === 'all' || p.category === selectedCategory);
             });
@@ -279,14 +474,14 @@
 
             for (const p of filtered) {
                 const qty = cart[p.name] || 0;
-                const weight = getTotalWeight(p, qty);
                 container.innerHTML += `
-                    <div class="card">
+                    <div class="product-card">
                         <div>
-                            <div class="item-name">
+                            <div class="product-name">
                                 ${p.name}
+                                <span class="product-weight">${p.weight}</span>
                             </div>
-                            <div class="price-unit">${p.price.toLocaleString()} so'm / ${p.unitWeight} ${p.unitName}</div>
+                            <div class="product-price">${p.price.toLocaleString()} so'm</div>
                         </div>
                         <div class="quantity-control">
                             <button class="qty-btn" onclick="changeQty('${p.name.replace(/'/g, "\\'")}', -1)">−</button>
@@ -318,14 +513,13 @@
                 if (!p) continue;
                 const sum = p.price * qty;
                 total += sum;
-                const weight = getTotalWeight(p, qty);
                 cartDiv.innerHTML += `
                     <div class="cart-item">
-                        <span>${name} x${qty} = ${weight}</span>
+                        <span>${name} x${qty}</span>
                         <div class="cart-item-controls">
                             <span>${sum.toLocaleString()} so'm</span>
-                            <button onclick="changeQty('${name.replace(/'/g, "\\'")}', -1)" style="background:rgba(255,255,255,0.2); border:none; width:26px; height:26px; border-radius:50%; cursor:pointer;">−</button>
-                            <button onclick="changeQty('${name.replace(/'/g, "\\'")}', 1)" style="background:rgba(255,255,255,0.2); border:none; width:26px; height:26px; border-radius:50%; cursor:pointer;">+</button>
+                            <button class="cart-item-btn" onclick="changeQty('${name.replace(/'/g, "\\'")}', -1)">−</button>
+                            <button class="cart-item-btn" onclick="changeQty('${name.replace(/'/g, "\\'")}', 1)">+</button>
                         </div>
                     </div>
                 `;
@@ -354,6 +548,7 @@
         });
 
         document.getElementById('locationBtn').onclick = () => {
+            document.getElementById('locationInfo').innerHTML = '⏳ Lokatsiya yuborilmoqda...';
             tg.requestLocation();
         };
 
