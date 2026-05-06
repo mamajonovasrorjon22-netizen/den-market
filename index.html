@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Den Market | Premium do'kon</title>
+    <title>Den Market | Premium</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
@@ -39,11 +39,17 @@
             z-index: 1;
         }
 
-        /* HEADER brend */
+        /* ========== HAVODA UCHAYOTGAN HEADER ========== */
         .header {
             text-align: center;
             margin-bottom: 30px;
             padding: 25px 0;
+            animation: floatHeader 3s ease-in-out infinite;
+        }
+
+        @keyframes floatHeader {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
         }
 
         .brand {
@@ -57,6 +63,12 @@
         .brand-icon {
             font-size: 3rem;
             filter: drop-shadow(0 0 15px rgba(255, 216, 155, 0.4));
+            animation: iconGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes iconGlow {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(255, 216, 155, 0.3)); }
+            50% { filter: drop-shadow(0 0 20px rgba(255, 216, 155, 0.7)); }
         }
 
         .brand-name {
@@ -74,6 +86,12 @@
             color: #ffd89b;
             letter-spacing: 2px;
             text-transform: uppercase;
+            animation: textGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes textGlow {
+            0%, 100% { text-shadow: 0 0 2px rgba(255, 216, 155, 0.3); }
+            50% { text-shadow: 0 0 10px rgba(255, 216, 155, 0.6); }
         }
 
         /* Qidiruv va filtrlash */
@@ -95,11 +113,6 @@
             backdrop-filter: blur(10px);
         }
 
-        .search-box:focus {
-            outline: none;
-            border-color: #ffd89b;
-        }
-
         select {
             flex: 1;
             padding: 14px 18px;
@@ -107,11 +120,9 @@
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 216, 155, 0.2);
             color: #fff;
-            font-size: 0.9rem;
-            cursor: pointer;
         }
 
-        /* Mahsulotlar ro'yxati */
+        /* Mahsulotlar */
         .menu-list {
             display: flex;
             flex-direction: column;
@@ -168,13 +179,19 @@
             cursor: pointer;
         }
 
-        /* Savatcha */
+        /* Savatcha (uchuvchi) */
         .cart-section {
             background: rgba(10, 10, 25, 0.7);
             backdrop-filter: blur(15px);
             border-radius: 28px;
             padding: 20px;
             border: 1px solid rgba(255, 216, 155, 0.15);
+            animation: floatCart 4s ease-in-out infinite;
+        }
+
+        @keyframes floatCart {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
         }
 
         .cart-header {
@@ -196,7 +213,6 @@
             background: none;
             border: none;
             color: #ff6b6b;
-            font-size: 0.75rem;
             cursor: pointer;
         }
 
@@ -245,19 +261,25 @@
             font-size: 1.2rem;
         }
 
-        /* Lokatsiya tugmasi 100% ishlaydi */
+        /* LOKATSIYA TUGMASI */
         .location-btn {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             border: none;
             border-radius: 50px;
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 600;
             background: linear-gradient(135deg, #2a5a35, #1e3a25);
             color: white;
             cursor: pointer;
             margin: 12px 0;
-            transition: 0.2s;
+            transition: all 0.3s;
+            animation: btnPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes btnPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(60, 110, 71, 0.3); }
+            50% { transform: scale(1.02); box-shadow: 0 0 25px rgba(60, 110, 71, 0.6); }
         }
 
         .location-info {
@@ -307,10 +329,17 @@
             margin-top: 20px;
             opacity: 0.5;
         }
+
+        .no-results {
+            text-align: center;
+            padding: 30px;
+            opacity: 0.6;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- HAVODA UCHAYOTGAN HEADER -->
         <div class="header">
             <div class="brand">
                 <span class="brand-icon">🏪</span>
@@ -344,6 +373,7 @@
                 <span class="total-amount" id="totalAmount">0 so'm</span>
             </div>
 
+            <!-- LOKATSIYA TUGMASI (o'zi) -->
             <button class="location-btn" id="locationBtn">📍 LOKATSIYANI YUBORISH</button>
             <div id="locationInfo" class="location-info"></div>
 
@@ -392,7 +422,7 @@
                 container.innerHTML = '';
                 const filtered = PRODUCTS.filter(p => p.name.toLowerCase().includes(searchTerm) && (selectedCategory === 'all' || p.category === selectedCategory));
                 if (filtered.length === 0) {
-                    container.innerHTML = '<div class="no-results" style="text-align:center; padding:30px;">❌ Hech narsa topilmadi</div>';
+                    container.innerHTML = '<div class="no-results">❌ Hech narsa topilmadi</div>';
                     return;
                 }
                 for (const p of filtered) {
@@ -467,7 +497,7 @@
                 }
             });
 
-            // LOKATSIYA 100% ISHLAYDI
+            // LOKATSIYA TUGMASI
             const locationBtn = document.getElementById('locationBtn');
             const locationInfo = document.getElementById('locationInfo');
 
@@ -482,7 +512,7 @@
             });
 
             tg.onEvent('locationFailed', function(err) {
-                locationInfo.innerHTML = '❌ Lokatsiya yuborilmadi. Iltimos, ruxsat bering yoki manzilni qo‘lda yozing.';
+                locationInfo.innerHTML = '❌ Lokatsiya yuborilmadi. Iltimos, ruxsat bering.';
             });
 
             document.getElementById('orderBtn').addEventListener('click', function() {
